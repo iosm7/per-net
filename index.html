@@ -1,526 +1,478 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Una domanda importante...</title>
-    
-    <!-- Favicon: Cuore diviso a metà, blu e rosso (generato in SVG per non rompersi mai) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='50%' style='stop-color:%23007bff;stop-opacity:1' /><stop offset='50%' style='stop-color:%23ff4d6d;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
-    
-    <!-- Import Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Una domanda importante...</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='50%' style='stop-color:%23007bff;stop-opacity:1' /><stop offset='50%' style='stop-color:%23ff4d6d;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+    
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <style>
-        /* === VARIABILI CSS & RESET === */
-        :root {
-            --primary-color: #ff4d6d;
-            --bg-color: #fff0f3; 
-            --text-color: #4a4a4a;
-            --white: #ffffff;
-        }
+    <style>
+        /* === VARIABILI CSS & RESET === */
+        :root {
+            --primary-color: #ff4d6d;
+            --bg-color: #fff0f3; 
+            --text-color: #4a4a4a;
+            --white: #ffffff;
+        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* BLOCCA COMPLETAMENTE LO SCROLL NATIVO (SU/GIU) */
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden; 
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
+        /* BLOCCA COMPLETAMENTE LO SCROLL NATIVO (SU/GIU) */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
 
-        h1, h2, h3 {
-            font-family: 'Pacifico', cursive;
-            color: var(--primary-color);
-            font-weight: normal;
-        }
+        h1, h2, h3 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-weight: normal;
+        }
 
-        /* === SISTEMA DI NAVIGAZIONE A SLIDE === */
-        .scroll-wrapper {
-            width: 100%;
-            height: 100vh;
-            /* La transizione per scivolare su e giù morbidamente */
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
+        /* === SISTEMA DI NAVIGAZIONE A SLIDE === */
+        .scroll-wrapper {
+            width: 100%;
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
 
-        /* Ogni sezione occuperà esattamente il 100% dello schermo */
-        .section {
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+        .section {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-        /* === BOTTONI DI NAVIGAZIONE === */
-        .nav-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: none;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
-            transition: transform 0.3s ease, background-color 0.3s;
-            cursor: pointer;
-            margin: 10px;
-        }
+        /* === BOTTONI DI NAVIGAZIONE === */
+        .nav-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s;
+            cursor: pointer;
+            margin: 10px;
+        }
 
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            background-color: #ff3355;
-        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            background-color: #ff3355;
+        }
 
-        .nav-group {
-            margin-top: 2rem;
-            z-index: 50;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+        .nav-group {
+            margin-top: 2rem;
+            z-index: 50;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-        /* === HERO SECTION === */
-        .hero-section {
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(to bottom, #ffe4e8, var(--bg-color));
-        }
+        /* === HERO SECTION === */
+        .hero-section {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(to bottom, #ffe4e8, var(--bg-color));
+        }
 
-        .hero-section h1 {
-            font-size: clamp(3rem, 8vw, 5rem); 
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
+        .hero-section h1 {
+            font-size: clamp(3rem, 8vw, 5rem); 
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
 
-        .hero-section p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 2rem;
-        }
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
 
-        /* === SEZIONE RICORDI (CAROSELLO 3D a 6 foto) === */
-        .memories-section {
-            text-align: center;
-        }
+        /* === SEZIONE RICORDI === */
+        .memories-section {
+            text-align: center;
+        }
 
-        .memories-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            padding: 0 2rem;
-        }
+        .memories-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
 
-        .carousel-scene {
-            width: 100%;
-            height: 450px;
-            perspective: 1000px; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+        .carousel-scene {
+            width: 100%;
+            height: 450px;
+            perspective: 1000px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-        .carousel-spinner {
-            width: 280px;
-            height: 380px;
-            position: relative;
-            transform-style: preserve-3d; 
-            animation: spinClockwise 30s infinite linear;
-        }
+        .carousel-spinner {
+            width: 280px;
+            height: 380px;
+            position: relative;
+            transform-style: preserve-3d; 
+            animation: spinClockwise 30s infinite linear;
+        }
 
-        @keyframes spinClockwise {
-            from { transform: translateZ(-250px) rotateY(0deg); }
-            to { transform: translateZ(-250px) rotateY(-360deg); }
-        }
+        @keyframes spinClockwise {
+            from { transform: translateZ(-250px) rotateY(0deg); }
+            to { transform: translateZ(-250px) rotateY(-360deg); }
+        }
 
-        .photo-card {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--white);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            backface-visibility: visible;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        .photo-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            backface-visibility: visible;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-        .photo-card img {
-            width: 100%;
-            height: 250px;
-            border-radius: 10px;
-            object-fit: cover;
-            pointer-events: none;
-        }
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            object-fit: cover;
+            pointer-events: none;
+        }
 
-        .photo-card p {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            font-style: italic;
-            pointer-events: none;
-        }
+        .photo-card p {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-style: italic;
+            pointer-events: none;
+        }
 
-        /* Posizionamento a 60 gradi */
-        .item-1 { transform: rotateY(0deg) translateZ(350px); }
-        .item-2 { transform: rotateY(60deg) translateZ(350px); }
-        .item-3 { transform: rotateY(120deg) translateZ(350px); }
-        .item-4 { transform: rotateY(180deg) translateZ(350px); }
-        .item-5 { transform: rotateY(240deg) translateZ(350px); }
-        .item-6 { transform: rotateY(300deg) translateZ(350px); }
+        .item-1 { transform: rotateY(0deg) translateZ(350px); }
+        .item-2 { transform: rotateY(60deg) translateZ(350px); }
+        .item-3 { transform: rotateY(120deg) translateZ(350px); }
+        .item-4 { transform: rotateY(180deg) translateZ(350px); }
+        .item-5 { transform: rotateY(240deg) translateZ(350px); }
+        .item-6 { transform: rotateY(300deg) translateZ(350px); }
 
-        /* === MODALE IMMAGINE (LIGHTBOX) === */
-        .image-modal {
-            visibility: hidden;
-            opacity: 0;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.85);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+        /* === MODALE IMMAGINE === */
+        .image-modal {
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
 
-        .image-modal.active {
-            visibility: visible;
-            opacity: 1;
-        }
+        .image-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
 
-        .modal-content {
-            max-width: 90%;
-            max-height: 75vh;
-            border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            object-fit: contain;
-        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 75vh;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
 
-        .modal-caption {
-            margin-top: 20px;
-            color: white;
-            font-size: 1.2rem;
-            font-style: italic;
-            text-align: center;
-            padding: 0 20px;
-        }
+        .modal-caption {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.2rem;
+            font-style: italic;
+            text-align: center;
+            padding: 0 20px;
+        }
 
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
 
-        .close-modal:hover {
-            color: var(--primary-color);
-        }
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
 
-        /* === SEZIONE PROPOSTA (PROPOSAL) === */
-        .proposal-section {
-            text-align: center;
-            padding: 2rem;
-            background-color: var(--white);
-            border-top-left-radius: 50px;
-            border-top-right-radius: 50px;
-            position: relative; /* Importante per isolare il bottone che scappa! */
-        }
+        /* === SEZIONE PROPOSTA === */
+        .proposal-section {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--white);
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            position: relative;
+        }
 
-        .proposal-section h2 {
-            font-size: 3.5rem;
-            margin-bottom: 2rem;
-        }
+        .proposal-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+        }
 
-        .buttons-container {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            justify-content: center;
-            margin-top: 2rem;
-            min-height: 150px; 
-        }
+        .buttons-container {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            min-height: 150px; 
+        }
 
-        .btn-proposal {
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.3s ease; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        .btn-proposal {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
 
-        .btn-yes {
-            background-color: #4CAF50;
-            color: white;
-            z-index: 100; 
-        }
+        .btn-yes {
+            background-color: #4CAF50;
+            color: white;
+            z-index: 100; 
+        }
 
-        .btn-no {
-            background-color: #f44336;
-            color: white;
-            z-index: 90;
-        }
+        .btn-no {
+            background-color: #f44336;
+            color: white;
+            z-index: 90;
+        }
 
-        .top-nav {
-            position: absolute;
-            top: 20px;
-        }
+        .top-nav {
+            position: absolute;
+            top: 20px;
+        }
 
-        /* === RESPONSIVE FIX === */
-        @media (max-width: 768px) {
-            .carousel-scene {
-                height: 380px;
-            }
-            .carousel-spinner {
-                width: 220px;
-                height: 320px;
-            }
-            .photo-card img {
-                height: 200px;
-            }
-            
-            /* Raggio ricalcolato per mobile */
-            .item-1 { transform: rotateY(0deg) translateZ(220px); }
-            .item-2 { transform: rotateY(60deg) translateZ(220px); }
-            .item-3 { transform: rotateY(120deg) translateZ(220px); }
-            .item-4 { transform: rotateY(180deg) translateZ(220px); }
-            .item-5 { transform: rotateY(240deg) translateZ(220px); }
-            .item-6 { transform: rotateY(300deg) translateZ(220px); }
+        /* === RESPONSIVE FIX === */
+        @media (max-width: 768px) {
+            .carousel-scene { height: 380px; }
+            .carousel-spinner { width: 220px; height: 320px; }
+            .photo-card img { height: 200px; }
+            
+            .item-1 { transform: rotateY(0deg) translateZ(220px); }
+            .item-2 { transform: rotateY(60deg) translateZ(220px); }
+            .item-3 { transform: rotateY(120deg) translateZ(220px); }
+            .item-4 { transform: rotateY(180deg) translateZ(220px); }
+            .item-5 { transform: rotateY(240deg) translateZ(220px); }
+            .item-6 { transform: rotateY(300deg) translateZ(220px); }
 
-            @keyframes spinClockwise {
-                from { transform: translateZ(-220px) rotateY(0deg); }
-                to { transform: translateZ(-220px) rotateY(-360deg); }
-            }
+            @keyframes spinClockwise {
+                from { transform: translateZ(-220px) rotateY(0deg); }
+                to { transform: translateZ(-220px) rotateY(-360deg); }
+            }
 
-            .buttons-container {
-                flex-direction: row;
-                gap: 1rem;
-            }
-            .btn-proposal {
-                padding: 12px 30px;
-                font-size: 1.2rem;
-            }
-            .modal-content {
-                max-width: 95%;
-            }
-            .nav-group {
-                margin-top: 1rem;
-            }
-        }
-    </style>
+            .buttons-container { flex-direction: row; gap: 1rem; }
+            .btn-proposal { padding: 12px 30px; font-size: 1.2rem; }
+            .modal-content { max-width: 95%; }
+            .nav-group { margin-top: 1rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- MODALE INGRANDIMENTO FOTO -->
-    <div id="imageModal" class="image-modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="expandedImg" src="">
-        <div id="modalCaption" class="modal-caption"></div>
-    </div>
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="expandedImg" src="">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
 
-    <!-- WRAPPER PER LO SCORRIMENTO VERTICALE BLOCCATO -->
-    <div class="scroll-wrapper" id="scrollWrapper">
+    <div class="scroll-wrapper" id="scrollWrapper">
 
-        <!-- 1. HERO SECTION -->
-        <section class="hero-section section">
-            <h1>Ciao Net</h1>
-            <p>
-                Oggi ha preparato una cosetta speciale per te.
-                <br><br>
-                perfavorerere guarda tutto!!!
-            </p>
-            <button class="nav-btn" onclick="goToSection(1)">Inizia il nostro viaggio ↓</button>
-        </section>
+        <!-- HERO -->
+        <section class="hero-section section">
+            <h1>Ciao Net</h1>
+            <p>
+                Oggi ho preparato una cosetta speciale per te.
+                <br><br>
+                per favore guarda tutto!!!
+            </p>
+            <button class="nav-btn" onclick="goToSection(1)">Inizia il nostro viaggio ↓</button>
+        </section>
 
-        <!-- 2. MEMORIES SECTION -->
-        <section class="memories-section section">
-            <h2>I nostri momenti...</h2>
-            
-            <div class="carousel-scene">
-                <div class="carousel-spinner">
-                    <!-- Foto 1 -->
-                    <div class="photo-card item-1">
-                        <img src="Foto Net\IMG_20251207_153936.jpg" alt="">
-                        <p>Quel gatto bastardo..
-                          07/12/25
-                        </p>
-                    </div>
-                    <!-- Foto 2 -->
-                    <div class="photo-card item-2">
-                        <img src="Foto Net\IMG_20260615_104210.jpg" alt="">
-                        <p>Prima volta a Roma.
-                          15/06/26
-                        </p>
-                    </div>
-                    <!-- Foto 3 -->
-                    <div class="photo-card item-3">
-                        <img src="Foto Net\IMG_20260731_124523.jpg" alt="">
-                        <p>Noi al museo.
-                          24/08/25
-                        </p>
-                    </div>
-                    <!-- Foto 4 -->
-                    <div class="photo-card item-4">
-                        <img src="Foto Net\Picsart_26-07-28_11-08-14-659.png" alt="">
-                        <p>Noi adesso 🥺.</p>
-                    </div>
-                    <!-- Foto 5 -->
-                    <div class="photo-card item-5">
-                        <img src="Foto Net\IMG_20260731_123954.jpg" alt="">
-                        <p>Seconda volta a Napoli.
-                          03/04/26
-                        </p>
-                    </div>
-                    <!-- Foto 6 -->
-                    <div class="photo-card item-6">
-                        <img src="Foto Net\IMG_20260731_123356.jpg" alt="">
-                        <p>Noi settimana scorsa.
-                          23/07/26
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <!-- MEMORIES -->
+        <section class="memories-section section">
+            <h2>I nostri momenti...</h2>
+            
+            <div class="carousel-scene">
+                <div class="carousel-spinner">
+                    <div class="photo-card item-1">
+                        <img src="foto\IMG_20251207_153936.jpg" alt="">
+                        <p>Quel gatto bastardo..<br>07/12/25</p>
+                    </div>
+                    <div class="photo-card item-2">
+                        <img src="foto\IMG_20260615_104210.jpg" alt="">
+                        <p>Prima volta a Roma.<br>15/06/26</p>
+                    </div>
+                    <div class="photo-card item-3">
+                        <img src="foto\IMG_20260731_124523.jpg" alt="">
+                        <p>Noi al museo.<br>24/08/25</p>
+                    </div>
+                    <div class="photo-card item-4">
+                        <img src="foto\Picsart_26-07-28_11-08-14-659.png" alt="">
+                        <p>Noi adesso 🥺.</p>
+                    </div>
+                    <div class="photo-card item-5">
+                        <img src="foto\IMG_20260731_123954.jpg" alt="">
+                        <p>Seconda volta a Napoli.<br>03/04/26</p>
+                    </div>
+                    <div class="photo-card item-6">
+                        <img src="foto\IMG_20260731_123356.jpg" alt="">
+                        <p>Noi settimana scorsa.<br>23/07/26</p>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Bottoni di navigazione interni -->
-            <div class="nav-group">
-                <button class="nav-btn" onclick="goToSection(0)">↑ Torna all'inizio</button>
-                <button class="nav-btn" onclick="goToSection(2)">Ho una domanda per te... ↓</button>
-            </div>
-        </section>
+            <div class="nav-group">
+                <button class="nav-btn" onclick="goToSection(0)">↑ Torna all'inizio</button>
+                <button class="nav-btn" onclick="goToSection(2)">Ho una domanda per te... ↓</button>
+            </div>
+        </section>
 
-        <!-- 3. PROPOSAL SECTION -->
-        <section class="proposal-section section">
-            <!-- Pulsante per tornare al carosello -->
-            <div class="top-nav">
-                <button class="nav-btn" onclick="goToSection(1)">↑ Rivedi i ricordi</button>
-            </div>
+        <!-- PROPOSAL -->
+        <section class="proposal-section section">
+            <div class="top-nav">
+                <button class="nav-btn" onclick="goToSection(1)">↑ Rivedi i ricordi</button>
+            </div>
 
-            <h2>Vuoi essere la mia fidanza'tina'?? </h2>
-            <p>prova solo ad andare su no e vedi che succede..</p>
-            
-            <div class="buttons-container">
-                <button class="btn-proposal btn-yes">Sì!</button>
-                <button class="btn-proposal btn-no">No</button>
-            </div>
-        </section>
+            <h2>Vuoi essere la mia fidanza'tina'?? </h2>
+            <p>prova solo ad andare su no e vedi che succede..</p>
+            
+            <div class="buttons-container">
+                <button class="btn-proposal btn-yes">Sì!</button>
+                <button class="btn-proposal btn-no">No</button>
+            </div>
+        </section>
 
-    </div> <!-- Fine scroll-wrapper -->
+    </div>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        // === LOGICA DELLO SCORRIMENTO A SEZIONI ===
-        const scrollWrapper = document.getElementById('scrollWrapper');
-        
-        function goToSection(index) {
-            // Moltiplica l'indice (0, 1, o 2) per 100vh per spostare il blocco su o giù
-            scrollWrapper.style.transform = `translateY(-${index * 100}vh)`;
-        }
+    <!-- JAVASCRIPT -->
+    <script>
+        const scrollWrapper = document.getElementById('scrollWrapper');
+        
+        function goToSection(index) {
+            scrollWrapper.style.transform = `translateY(-${index * 100}vh)`;
+        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            
-            // === LOGICA DELLA MODALE (INGRANDIMENTO FOTO) ===
-            const photoCards = document.querySelectorAll('.photo-card');
-            const imageModal = document.getElementById('imageModal');
-            const expandedImg = document.getElementById('expandedImg');
-            const modalCaption = document.getElementById('modalCaption');
-            const closeModalBtn = document.querySelector('.close-modal');
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            const photoCards = document.querySelectorAll('.photo-card');
+            const imageModal = document.getElementById('imageModal');
+            const expandedImg = document.getElementById('expandedImg');
+            const modalCaption = document.getElementById('modalCaption');
+            const closeModalBtn = document.querySelector('.close-modal');
 
-            photoCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const imgElement = card.querySelector('img');
-                    const textElement = card.querySelector('p');
+            photoCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const imgElement = card.querySelector('img');
+                    const textElement = card.querySelector('p');
 
-                    expandedImg.src = imgElement.src;
-                    modalCaption.innerText = textElement.innerText;
-                    imageModal.classList.add('active');
-                });
-            });
+                    expandedImg.src = imgElement.src;
+                    modalCaption.innerHTML = textElement.innerHTML;
+                    imageModal.classList.add('active');
+                });
+            });
 
-            closeModalBtn.addEventListener('click', () => {
-                imageModal.classList.remove('active');
-            });
+            closeModalBtn.addEventListener('click', () => {
+                imageModal.classList.remove('active');
+            });
 
-            imageModal.addEventListener('click', (e) => {
-                if (e.target === imageModal) {
-                    imageModal.classList.remove('active');
-                }
-            });
+            imageModal.addEventListener('click', (e) => {
+                if (e.target === imageModal) {
+                    imageModal.classList.remove('active');
+                }
+            });
 
+            const btnNo = document.querySelector('.btn-no');
+            const btnYes = document.querySelector('.btn-yes');
+            const proposalSection = document.querySelector('.proposal-section');
+            
+            if (btnNo && btnYes) {
+                
+                let currentYesScale = 1;
 
-            // === LOGICA DEL MINIGIOCO DELLA PROPOSTA ===
-            const btnNo = document.querySelector('.btn-no');
-            const btnYes = document.querySelector('.btn-yes');
-            const proposalSection = document.querySelector('.proposal-section');
-            
-            if (btnNo && btnYes) {
-                
-                let currentYesScale = 1;
+                const dodgeCursor = (e) => {
+                    if(e.type === 'touchstart') {
+                        e.preventDefault(); 
+                    }
 
-                const dodgeCursor = (e) => {
-                    if(e.type === 'touchstart') {
-                        e.preventDefault(); 
-                    }
+                    btnNo.style.position = 'absolute';
 
-                    // Alert rimosso! Scappa direttamente.
-                    btnNo.style.position = 'absolute';
+                    const sectionWidth = proposalSection.offsetWidth;
+                    const sectionHeight = proposalSection.offsetHeight;
+                    
+                    const btnWidth = btnNo.offsetWidth;
+                    const btnHeight = btnNo.offsetHeight;
 
-                    const sectionWidth = proposalSection.offsetWidth;
-                    const sectionHeight = proposalSection.offsetHeight;
-                    
-                    const btnWidth = btnNo.offsetWidth;
-                    const btnHeight = btnNo.offsetHeight;
+                    const maxX = sectionWidth - btnWidth;
+                    const maxY = sectionHeight - btnHeight;
 
-                    const maxX = sectionWidth - btnWidth;
-                    const maxY = sectionHeight - btnHeight;
+                    const safeMargin = 20; 
+                    const randomX = Math.floor(Math.random() * (maxX - safeMargin * 2)) + safeMargin;
+                    const randomY = Math.floor(Math.random() * (maxY - safeMargin * 2)) + safeMargin;
 
-                    // Margine di sicurezza
-                    const safeMargin = 20; 
-                    const randomX = Math.floor(Math.random() * (maxX - safeMargin * 2)) + safeMargin;
-                    const randomY = Math.floor(Math.random() * (maxY - safeMargin * 2)) + safeMargin;
+                    btnNo.style.left = `${randomX}px`;
+                    btnNo.style.top = `${randomY}px`;
 
-                    btnNo.style.left = `${randomX}px`;
-                    btnNo.style.top = `${randomY}px`;
+                    currentYesScale += 0.2; 
+                    btnYes.style.transform = `scale(${currentYesScale})`;
+                };
 
-                    currentYesScale += 0.2; 
-                    btnYes.style.transform = `scale(${currentYesScale})`;
-                };
+                btnNo.addEventListener('mouseover', dodgeCursor);
+                btnNo.addEventListener('touchstart', dodgeCursor, { passive: false });
+                btnNo.addEventListener('click', dodgeCursor); 
 
-                btnNo.addEventListener('mouseover', dodgeCursor);
-                btnNo.addEventListener('touchstart', dodgeCursor, { passive: false });
-                btnNo.addEventListener('click', dodgeCursor); 
-
-                btnYes.addEventListener('click', () => {
-                    alert("Sapevo che avresti detto di sì!❤️");
-                });
-            }
-        });
-    </script>
+                btnYes.addEventListener('click', () => {
+                    alert("Sapevo che avresti detto di sì!❤️");
+                });
+            }
+        });
+    </script>
 </body>
 </html>
